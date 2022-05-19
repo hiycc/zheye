@@ -5,7 +5,8 @@
     <form action="">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">邮箱地址</label>
-        <input type="email" class="form-control" v-model="emailRef.val" @blur="validateEmail" id="exampleInputEmail1">
+        <validate-input :rules="emailRules" v-model="emailVal"/>
+        {{emailVal}}
         <div id="emailHelp" v-if="emailRef.error" class="form-text">{{emailRef.message}}</div>
       </div>
       <div class="mb-3">
@@ -18,15 +19,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import ColumnList, { ColumnProps } from './components/ColumnList.vue'
 import GlobalHeader, { UserProps } from './components/GlobalHeader.vue'
+import ValidateInput, { RulesProp } from './components/ValidateInput.vue'
 
 const currentUser: UserProps = {
   isLogin: true,
   name: 'Lewis'
 }
+const emailRules: RulesProp = [
+  { type: 'required', message: '电子邮件不能为空' },
+  { type: 'email', message: '请输入正确的邮件格式' }
+]
 
 const testData: ColumnProps[] = [
   {
@@ -58,9 +64,11 @@ export default defineComponent({
   name: 'App',
   components: {
     ColumnList,
-    GlobalHeader
+    GlobalHeader,
+    ValidateInput
   },
   setup () {
+    const emailVal = ref('luxi')
     const emailRef = reactive({
       val: '',
       error: false,
@@ -77,7 +85,9 @@ export default defineComponent({
       list: testData,
       currentUser,
       emailRef,
-      validateEmail
+      validateEmail,
+      emailRules,
+      emailVal
     }
   }
 })
