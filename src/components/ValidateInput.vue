@@ -3,6 +3,7 @@
     <input
       class="form-control"
       :class="{'is-invalid': inputRef.error}"
+      v-bind="$attrs"
       :value="inputRef.val"
       @input="updateValue"
       @blur="validateInput"

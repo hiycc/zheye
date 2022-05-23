@@ -1,8 +1,8 @@
 <template>
   <form class="validate-form-container" action="">
     <slot name="default"></slot>
-    <div class="submit-area" @click="submitForm">
-      <slot name="submit">
+    <div class="submit-area">
+      <slot name="submit" :handleClickSubmit="submitForm">
         <button type="submit" class="btn btn-primary">提交</button>
       </slot>
     </div>

@@ -6,7 +6,7 @@
           <img :src="column.avatar" :alt="column.title" class="card-img-top">
           <h5>{{column.title}}</h5>
           <p>{{column.description}}</p>
-          <a href="#" class="btn btn-primary">进入专栏</a>
+          <router-link :to="{name:'detail', params: {id:column.id}}"><div class="btn btn-primary">进入专栏</div></router-link>
         </div>
       </div>
     </div>
@@ -31,3 +31,10 @@ export default defineComponent({
   }
 })
 </script>
+
+<style>
+  a {
+    text-decoration: none;
+    color: #ffffff
+  }
+</style>

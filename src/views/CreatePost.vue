@@ -1,20 +1,22 @@
 <template>
-  <validate-form @form-submit="onSubmitForm">
+  <div class="create-post-page">
+    <h4>新建文章</h4>
+    <validate-form @form-submit="onSubmitForm">
     <div class="mb-3">
-      <label class="form-label">邮箱地址</label>
-      <validate-input type="text" :rules="emailRules" v-model="emailVal"/>
+      <label class="form-label">文章标题：</label>
+      <validate-input type="text" :rules="titleRules" v-model="titleVal" placeholder="请输入文章标题" />
       <div id="emailHelp" v-if="emailRef.error" class="form-text">{{emailRef.message}}</div>
     </div>
     <div class="mb-3">
-      <label class="form-label">密码</label>
-      <validate-input type="password" :rules="pwdRules" />
+      <label class="form-label">文章详细：</label>
+      <validate-input type="password" :rules="contentRules" placeholder="请输入文章详细" />
     </div>
-    <template v-slot:submit="slotProps" >
-      <span class="btn btn-danger" @click="slotProps.handleClickSubmit">登陆</span>
+    <template #submit>
+      <span class="btn btn-danger">登陆</span>
     </template>
   </validate-form>
+  </div>
 </template>
-
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -22,16 +24,16 @@ import { useStore } from 'vuex'
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
 import ValidateForm from '../components/ValidateForm.vue'
 
-const emailRules: RulesProp = [
-  { type: 'required', message: '电子邮件不能为空' },
-  { type: 'email', message: '请输入正确的邮件格式' }
+const titleRules: RulesProp = [
+  { type: 'required', message: '文章标题不能为空' }
 ]
-const pwdRules: RulesProp = [
-  { type: 'required', message: '密码不能为空' }
+
+const contentRules: RulesProp = [
+  { type: 'required', message: '文章不能为空' }
 ]
 
 export default defineComponent({
-  name: 'App',
+  name: 'CreatePost',
   components: {
     ValidateInput,
     ValidateForm
@@ -46,7 +48,7 @@ export default defineComponent({
         router.push('/')
       }
     }
-    const emailVal = ref('')
+    const titleVal = ref('')
     const emailRef = reactive({
       val: '',
       error: false,
@@ -62,19 +64,11 @@ export default defineComponent({
     return {
       emailRef,
       validateEmail,
-      emailRules,
-      emailVal,
-      onSubmitForm,
-      pwdRules
+      titleRules,
+      contentRules,
+      titleVal,
+      onSubmitForm
     }
   }
 })
 </script>
-<style>
-  .router-link-active {
-    text-decoration: none;
-  }
-  a {
-    text-decoration: none;
-  }
-</style>
