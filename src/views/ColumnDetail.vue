@@ -11,21 +11,28 @@
         <p class="text-muted">{{column?.description}}</p>
       </div>
     </div>
+    <post-list :list="list"></post-list>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import { testData } from '../testData'
+import PostList from '../components/PostList.vue'
 export default defineComponent({
+  components: {
+    PostList
+  },
   setup () {
     const route = useRoute()
     const store = useStore()
     const currentId = +route.params.id
     const column = store.getters.getColumnsById(currentId)
+    const post = store.state.posts
+    console.log(post)
     return {
-      column
+      column,
+      list: post
     }
   }
 })
