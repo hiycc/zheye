@@ -19,11 +19,11 @@
 </template>
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
 import ValidateForm from '../components/ValidateForm.vue'
-import { GlobalDataProps, PostProps } from '../store'
+import { PostProps } from '../store'
 
 const titleRules: RulesProp = [
   { type: 'required', message: '文章标题不能为空' }
