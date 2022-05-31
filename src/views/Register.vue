@@ -2,21 +2,24 @@
   <validate-form @form-submit="onSubmitForm">
     <div class="mb-3">
       <label class="form-label">邮箱地址</label>
-      <validate-input type="text" :rules="emailRules" v-model="emailVal"/>
-      <div id="emailHelp" v-if="emailRef.error" class="form-text">{{emailRef.message}}</div>
+      <validate-input type="text" :rules="emailRules"/>
     </div>
     <div class="mb-3">
       <label class="form-label">密码</label>
-      <validate-input type="password" :rules="pwdRules" />
+      <validate-input type="password" :rules="pwdRules" v-model="pwd1"/>
     </div>
-    <template v-slot:submit="slotProps" >
-      <span class="btn btn-danger" @click="slotProps.handleClickSubmit">登陆</span>
+    <div class="mb-3">
+      <label class="form-label">确认密码</label>
+      <validate-input type="password" :rules="validPwdRules" :validValue="pwd1" v-model="pwd2"/>
+    </div>
+    <template #submit >
+      <span class="btn btn-danger" >注册</span>
     </template>
   </validate-form>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
@@ -29,9 +32,13 @@ const emailRules: RulesProp = [
 const pwdRules: RulesProp = [
   { type: 'required', message: '密码不能为空' }
 ]
+const validPwdRules: RulesProp = [
+  { type: 'required', message: '密码不能为空' },
+  { type: 'valid', message: '两次密码不一致' }
+]
 
 export default defineComponent({
-  name: 'Login',
+  name: 'Register',
   components: {
     ValidateInput,
     ValidateForm
@@ -40,31 +47,22 @@ export default defineComponent({
     const store = useStore()
     const router = useRouter()
     const onSubmitForm = (result: boolean) => {
+      console.log('result', result)
       if (result) {
         store.commit('login')
         router.push('/')
       }
     }
-    const emailVal = ref('')
-    const emailRef = reactive({
-      val: '',
-      error: false,
-      message: ''
-    })
+    const pwd1 = ref('')
+    const pwd2 = ref('')
 
-    const validateEmail = () => {
-      if (emailRef.val.trim() === '') {
-        emailRef.error = true
-        emailRef.message = 'should not be empty'
-      }
-    }
     return {
-      emailRef,
-      validateEmail,
       emailRules,
-      emailVal,
+      validPwdRules,
       onSubmitForm,
-      pwdRules
+      pwdRules,
+      pwd1,
+      pwd2
     }
   }
 })

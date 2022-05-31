@@ -26,7 +26,7 @@ import { defineComponent, PropType, reactive, onMounted } from 'vue'
 import { emitter } from './ValidateForm.vue'
 const emailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
 interface RuleProp {
-  type: 'required' | 'email';
+  type: 'required' | 'email' | 'valid';
   message: string;
 }
 export type RulesProp = RuleProp[]
@@ -39,7 +39,8 @@ export default defineComponent({
     tag: {
       type: String as PropType<TagType>,
       default: 'input'
-    }
+    },
+    validValue: String
   },
   setup (props, context) {
     const inputRef = reactive({
@@ -63,6 +64,9 @@ export default defineComponent({
               break
             case 'email':
               passed = emailReg.test(inputRef.val)
+              break
+            case 'valid':
+              passed = (inputRef.val === props.validValue)
               break
             default:
               break

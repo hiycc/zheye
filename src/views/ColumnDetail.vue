@@ -15,7 +15,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import PostList from '../components/PostList.vue'
@@ -26,10 +26,13 @@ export default defineComponent({
   setup () {
     const route = useRoute()
     const store = useStore()
-    const currentId = +route.params.id
-    const column = store.getters.getColumnsById(currentId)
-    const post = store.state.posts
-    console.log(post)
+    onMounted(() => {
+      const currentId = route.params.id
+      store.dispatch('fetchPosts', currentId)
+      store.dispatch('fetchColumn', currentId)
+    })
+    const post = computed(() => store.state.posts)
+    const column = computed(() => store.state.column)
     return {
       column,
       list: post

@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <global-header :user="currentUser"></global-header>
+    <global-loader v-if="isLoading" text="加载中..." background="rgba(0,0,0,0.8)"></global-loader>
     <router-view></router-view>
     <footer class="text-center py-4 text-secondary bg-light mt-6">
       <small>
@@ -20,16 +21,20 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 import GlobalHeader from './components/GlobalHeader.vue'
+import GlobalLoader from './components/GlobalLoader.vue'
 export default defineComponent({
   name: 'App',
   components: {
-    GlobalHeader
+    GlobalHeader,
+    GlobalLoader
   },
   setup () {
     const store = useStore()
     const currentUser = computed(() => store.state.user)
+    const isLoading = computed(() => store.state.isLoading)
     return {
-      currentUser
+      currentUser,
+      isLoading
     }
   }
 })

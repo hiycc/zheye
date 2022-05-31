@@ -3,7 +3,7 @@
     <a href="#" class="navbar-brand"><router-link :to="{name: 'home'}">者也</router-link></a>
     <ul v-if="!user.isLogin" class="list-inline mb-0">
       <li class="list-inline-item"><router-link to="login"><a href="#" class="btn btn-outline-light my-2">登陆</a></router-link></li>
-      <li class="list-inline-item"><router-link to="login"><a href="#" class="btn btn-outline-light my-2">注册</a></router-link></li>
+      <li class="list-inline-item"><router-link to="register"><a href="#" class="btn btn-outline-light my-2">注册</a></router-link></li>
     </ul>
     <ul v-else class="list-inline mb-0">
       <li class="list-inline-item">
