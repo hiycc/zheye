@@ -22,11 +22,13 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, PropType, reactive, onMounted } from 'vue'
+import { defineComponent, PropType, reactive, onMounted, watch, ref } from 'vue'
 import { emitter } from './ValidateForm.vue'
+//  各规则对应的正则
 const emailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
+const userReg = /^[\u4e00-\u9fa5a-zA-Z0-9]{6,12}$/
 interface RuleProp {
-  type: 'required' | 'email' | 'valid';
+  type: 'required' | 'email' | 'valid' | 'user' ;
   message: string;
 }
 export type RulesProp = RuleProp[]
@@ -36,6 +38,7 @@ export default defineComponent({
   props: {
     rules: Array as PropType<RulesProp>,
     modelValue: String,
+    emailError: String,
     tag: {
       type: String as PropType<TagType>,
       default: 'input'
@@ -43,6 +46,7 @@ export default defineComponent({
     validValue: String
   },
   setup (props, context) {
+    const ifFocus = ref(false)
     const inputRef = reactive({
       val: props.modelValue || '',
       error: false,
@@ -68,6 +72,9 @@ export default defineComponent({
             case 'valid':
               passed = (inputRef.val === props.validValue)
               break
+            case 'user':
+              passed = userReg.test(inputRef.val)
+              break
             default:
               break
           }
@@ -81,8 +88,15 @@ export default defineComponent({
     onMounted(() => {
       emitter.emit('formItemCreated', validateInput)
     })
+    watch(() => props.emailError, (error, prevError) => {
+      if (error) {
+        inputRef.error = true
+        inputRef.message = error
+      }
+    })
     return {
       inputRef,
+      ifFocus,
       validateInput,
       updateValue
     }

@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 interface UserProps {
   isLogin: boolean;
@@ -59,6 +59,9 @@ const store = createStore<GlobalDataProps>({
     },
     setLoading (state, status) {
       state.isLoading = status
+    },
+    addUser (state) {
+      state.isLoading = false
     }
   },
   actions: {
@@ -73,6 +76,22 @@ const store = createStore<GlobalDataProps>({
     async fetchColumn (context, cid) {
       const { data } = await axios.get(`/columns/${cid}`)
       context.commit('fetchColumn', data)
+    },
+    async addUser (context, user) {
+      try {
+        const result = await axios.post('/register', JSON.stringify(user), {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        context.commit('addUser')
+        return result
+      } catch (e: Error | AxiosError | unknown) {
+        if (axios.isAxiosError(e)) {
+          context.commit('addUser')
+          return e
+        }
+      }
     }
   },
   getters: {
