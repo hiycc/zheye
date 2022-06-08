@@ -7,7 +7,7 @@
     </div>
     <div class="mb-3">
       <label class="form-label">密码</label>
-      <validate-input type="password" :rules="pwdRules" />
+      <validate-input type="password" :rules="pwdRules" v-model="pwdVal"/>
     </div>
     <template v-slot:submit="slotProps" >
       <span class="btn btn-danger" @click="slotProps.handleClickSubmit">登陆</span>
@@ -41,11 +41,22 @@ export default defineComponent({
     const router = useRouter()
     const onSubmitForm = (result: boolean) => {
       if (result) {
-        store.commit('login')
-        router.push('/')
+        const user = {
+          email: emailVal.value,
+          password: pwdVal.value
+        }
+        store.dispatch('login', user).then((result) => {
+          if (result.status !== 200) {
+            // emailError.value = '邮箱已被注册'
+            console.log(result)
+          } else {
+            router.push('/')
+          }
+        })
       }
     }
     const emailVal = ref('')
+    const pwdVal = ref('')
     const emailRef = reactive({
       val: '',
       error: false,
@@ -60,6 +71,7 @@ export default defineComponent({
     }
     return {
       emailRef,
+      pwdVal,
       validateEmail,
       emailRules,
       emailVal,

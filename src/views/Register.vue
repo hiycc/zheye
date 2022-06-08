@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
@@ -37,6 +37,7 @@ const userRules: RulesProp = [
 ]
 const emailRules: RulesProp = [
   { type: 'required', message: '电子邮件不能为空' },
+  { type: 'existed', message: '电子邮件已存在' },
   { type: 'email', message: '请输入正确的邮件格式' }
 ]
 const pwdRules: RulesProp = [
@@ -69,6 +70,7 @@ export default defineComponent({
         store.dispatch('addUser', user).then((result) => {
           if (result.status !== 201) {
             emailError.value = '邮箱已被注册'
+            console.log(result)
           } else {
             router.push('/')
           }

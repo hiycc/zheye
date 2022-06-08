@@ -38,8 +38,8 @@ const store = createStore<GlobalDataProps>({
     column: {} as ColumnProps
   },
   mutations: {
-    login (state) {
-      state.user = { ...state.user, isLogin: true, name: 'lewis' }
+    login (state, data) {
+      state.user = { ...state.user, isLogin: true, name: data.user.email, id: data.user.id }
     },
     logout (state) {
       state.user = { isLogin: false }
@@ -65,6 +65,23 @@ const store = createStore<GlobalDataProps>({
     }
   },
   actions: {
+    async login (context, user) {
+      try {
+        const result = await axios.post('/login', JSON.stringify(user), {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        console.log('result:' + result)
+        context.commit('login', result.data)
+        return result
+      } catch (e: Error | AxiosError | unknown) {
+        if (axios.isAxiosError(e)) {
+          context.commit('login')
+          return e
+        }
+      }
+    },
     async fetchColumns (context) {
       const { data } = await axios.get('/columns')
       context.commit('fetchColumns', data)

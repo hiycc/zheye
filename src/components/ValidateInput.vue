@@ -22,13 +22,15 @@
   </div>
 </template>
 <script lang="ts">
+import axios from 'axios'
 import { defineComponent, PropType, reactive, onMounted, watch, ref } from 'vue'
+import { useStore } from 'vuex'
 import { emitter } from './ValidateForm.vue'
 //  各规则对应的正则
 const emailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
 const userReg = /^[\u4e00-\u9fa5a-zA-Z0-9]{6,12}$/
 interface RuleProp {
-  type: 'required' | 'email' | 'valid' | 'user' ;
+  type: 'required' | 'email' | 'valid' | 'user' | 'existed';
   message: string;
 }
 export type RulesProp = RuleProp[]
@@ -46,7 +48,7 @@ export default defineComponent({
     validValue: String
   },
   setup (props, context) {
-    const ifFocus = ref(false)
+    const store = useStore()
     const inputRef = reactive({
       val: props.modelValue || '',
       error: false,
@@ -59,7 +61,7 @@ export default defineComponent({
     }
     const validateInput = () => {
       if (props.rules) {
-        const allPassed = props.rules.every(rule => {
+        const allPassed = props.rules.every(async rule => {
           inputRef.message = rule.message
           let passed = true
           switch (rule.type) {
@@ -96,7 +98,6 @@ export default defineComponent({
     })
     return {
       inputRef,
-      ifFocus,
       validateInput,
       updateValue
     }
