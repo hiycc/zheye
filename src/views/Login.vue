@@ -47,8 +47,7 @@ export default defineComponent({
         }
         store.dispatch('login', user).then((result) => {
           if (result.status !== 200) {
-            // emailError.value = '邮箱已被注册'
-            console.log(result)
+            console.log('密码错误')
           } else {
             router.push('/')
           }

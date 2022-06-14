@@ -4,6 +4,7 @@ import Login from './views/Login.vue'
 import store from './store'
 import ColumnDetail from './views/ColumnDetail.vue'
 import CreatePost from './views/CreatePost.vue'
+import CreateColumn from './views/CreateColumn.vue'
 import Register from './views/Register.vue'
 
 const routerHistory = createWebHistory()
@@ -29,14 +30,19 @@ export const router = createRouter({
       }
     },
     {
-      path: '/detail/:id',
+      path: '/detail/:columnId',
       name: 'detail',
       component: ColumnDetail
     },
     {
-      path: '/create',
-      name: 'create',
-      component: CreatePost,
+      path: '/createPost',
+      name: 'createPost',
+      component: CreatePost
+    },
+    {
+      path: '/createColumn',
+      name: 'createColumn',
+      component: CreateColumn,
       meta: {
         requireLogin: true
       }

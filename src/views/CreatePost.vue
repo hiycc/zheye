@@ -5,7 +5,7 @@
     <div class="mb-3">
       <label class="form-label">文章标题：</label>
       <validate-input type="text" :rules="titleRules" v-model="titleVal" placeholder="请输入文章标题" />
-      <div id="emailHelp" v-if="emailRef.error" class="form-text">{{emailRef.message}}</div>
+      <div id="emailHelp" v-if="titleRef.error" class="form-text">{{titleRef.message}}</div>
     </div>
     <div class="mb-3">
       <label class="form-label">文章详细：</label>
@@ -19,7 +19,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
 import ValidateForm from '../components/ValidateForm.vue'
@@ -41,39 +41,43 @@ export default defineComponent({
   },
   setup () {
     const store = useStore()
+    const route = useRoute()
+    const columnId = parseInt(route.params.columnId[0])
     const router = useRouter()
     const titleVal = ref('')
     const contentVal = ref('')
-    const emailRef = reactive({
+    const titleRef = reactive({
       val: '',
       error: false,
       message: ''
     })
     const onSubmitForm = (result: boolean) => {
       if (result) {
-        const { columnId } = store.state.user
         if (columnId) {
           const newPost:PostProps = {
-            id: new Date().getTime(),
+            postId: undefined,
+            userId: store.state.user.id,
             title: titleVal.value,
             content: contentVal.value,
-            createAt: new Date().toLocaleString(),
+            createAt: undefined,
             columnId
           }
-          store.commit('createPost', newPost)
+          store.dispatch('createPost', newPost).then((result) => {
+            console.log(result)
+          })
           console.log('create post successfully!')
           router.push({ name: 'detail', params: { id: columnId } })
         }
       }
     }
     const validateEmail = () => {
-      if (emailRef.val.trim() === '') {
-        emailRef.error = true
-        emailRef.message = 'should not be empty'
+      if (titleRef.val.trim() === '') {
+        titleRef.error = true
+        titleRef.message = 'should not be empty'
       }
     }
     return {
-      emailRef,
+      titleRef,
       validateEmail,
       titleRules,
       contentRules,

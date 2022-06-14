@@ -1,12 +1,12 @@
 <template>
   <div class="row">
-    <div class="col-4" v-for="column in list" :key="column.id">
+    <div class="col-4" v-for="column in list" :key="column.columnId">
       <div class="card mb-3" style="width: 18rem;">
         <div class="card-body">
           <img :src="column.avatar" :alt="column.title" class="card-img-top">
           <h5>{{column.title}}</h5>
           <p>{{column.description}}</p>
-          <router-link :to="{name:'detail', params: {id:column.id}}"><div class="btn btn-primary">进入专栏</div></router-link>
+          <router-link :to="{name:'detail', params: {columnId:column.columnId}}"><div class="btn btn-primary">进入专栏</div></router-link>
         </div>
       </div>
     </div>
@@ -16,7 +16,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 export interface ColumnProps {
-  id: number;
+  userId: number;
+  columnId: number;
   title: string;
   avatar: string;
   description: string;

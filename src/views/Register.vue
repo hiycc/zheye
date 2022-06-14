@@ -68,7 +68,7 @@ export default defineComponent({
         }
         emailError.value = ''
         store.dispatch('addUser', user).then((result) => {
-          if (result.status !== 201) {
+          if (result.status !== 200) {
             emailError.value = '邮箱已被注册'
             console.log(result)
           } else {

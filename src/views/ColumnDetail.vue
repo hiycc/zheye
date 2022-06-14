@@ -12,12 +12,14 @@
       </div>
     </div>
     <post-list :list="list"></post-list>
+    <span @click="createPost" class="btn btn-danger">新建Post</span>
+    <span @click="deleteColumn" class="btn btn-danger">删除专栏</span>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import PostList from '../components/PostList.vue'
 export default defineComponent({
   components: {
@@ -25,17 +27,28 @@ export default defineComponent({
   },
   setup () {
     const route = useRoute()
+    const router = useRouter()
     const store = useStore()
+    const columnId = route.params.columnId
     onMounted(() => {
-      const currentId = route.params.id
-      store.dispatch('fetchPosts', currentId)
-      store.dispatch('fetchColumn', currentId)
+      store.dispatch('fetchPosts', columnId)
+      store.dispatch('fetchColumn', columnId)
     })
-    const post = computed(() => store.state.posts)
+    const createPost = () => {
+      router.push({ name: 'createPost', params: { columnId: columnId } })
+    }
+    const deleteColumn = () => {
+      store.dispatch('deleteColumn', route.params.columnId).then((results) => {
+        router.replace({ path: '/' })
+      })
+    }
+    const posts = computed(() => store.state.posts)
     const column = computed(() => store.state.column)
     return {
       column,
-      list: post
+      list: posts,
+      deleteColumn,
+      createPost
     }
   }
 })
