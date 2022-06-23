@@ -1,5 +1,10 @@
 # zheye
 
+## to-do list
+[] upload image function
+[] JWT authentication
+[] profile edit function
+
 ## Project setup
 ```
 npm install
