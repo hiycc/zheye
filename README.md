@@ -1,9 +1,9 @@
 # zheye
 
 ## to-do list
-- [ ] upload image function
+- [ ] Upload image function
 - [ ] JWT authentication
-- [ ] profile edit function
+- [ ] Profile edit function
 
 ## Project setup
 ```
