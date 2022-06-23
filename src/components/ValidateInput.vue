@@ -22,15 +22,14 @@
   </div>
 </template>
 <script lang="ts">
-import axios from 'axios'
-import { defineComponent, PropType, reactive, onMounted, watch, ref } from 'vue'
+import { defineComponent, PropType, reactive, onMounted, watch } from 'vue'
 import { useStore } from 'vuex'
 import { emitter } from './ValidateForm.vue'
 //  各规则对应的正则
 const emailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
 const userReg = /^[\u4e00-\u9fa5a-zA-Z0-9]{6,12}$/
 interface RuleProp {
-  type: 'required' | 'email' | 'valid' | 'user' | 'existed';
+  type: 'required' | 'email' | 'valid' | 'user';
   message: string;
 }
 export type RulesProp = RuleProp[]
@@ -40,7 +39,7 @@ export default defineComponent({
   props: {
     rules: Array as PropType<RulesProp>,
     modelValue: String,
-    emailError: String,
+    Error: String,
     tag: {
       type: String as PropType<TagType>,
       default: 'input'
@@ -61,7 +60,7 @@ export default defineComponent({
     }
     const validateInput = () => {
       if (props.rules) {
-        const allPassed = props.rules.every(async rule => {
+        const allPassed = props.rules.every(rule => {
           inputRef.message = rule.message
           let passed = true
           switch (rule.type) {
@@ -90,7 +89,7 @@ export default defineComponent({
     onMounted(() => {
       emitter.emit('formItemCreated', validateInput)
     })
-    watch(() => props.emailError, (error, prevError) => {
+    watch(() => props.Error, (error, prevError) => {
       if (error) {
         inputRef.error = true
         inputRef.message = error

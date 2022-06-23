@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from './views/Home.vue'
+import Hall from './views/Hall.vue'
 import Login from './views/Login.vue'
-import store from './store'
+import store from './store/store'
 import ColumnDetail from './views/ColumnDetail.vue'
 import CreatePost from './views/CreatePost.vue'
 import CreateColumn from './views/CreateColumn.vue'
@@ -12,9 +13,17 @@ export const router = createRouter({
   history: routerHistory,
   routes: [
     {
-      path: '/',
+      path: '/home',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        requireLogin: true
+      }
+    },
+    {
+      path: '/',
+      name: 'hall',
+      component: Hall
     },
     {
       path: '/register',
@@ -51,11 +60,10 @@ export const router = createRouter({
 })
 router.beforeEach((to, from, next) => {
   if (to.meta.requireLogin && !store.state.user.isLogin) {
-    console.log('123')
     next({ name: 'login' })
   } else if (to.meta.redirectLogin && store.state.user.isLogin) {
     console.log(to.meta)
-    next({ name: 'home' })
+    next({ name: 'hall' })
   } else {
     next()
   }

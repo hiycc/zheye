@@ -23,7 +23,7 @@ import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
 import ValidateForm from '../components/ValidateForm.vue'
-import { ColumnProps } from '../store'
+import { ColumnProps } from '../store/module/Columns'
 
 const titleRules: RulesProp = [
   { type: 'required', message: '专栏标题不能为空' }

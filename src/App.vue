@@ -3,6 +3,7 @@
     <global-header :user="currentUser"></global-header>
     <global-loader v-if="isLoading" text="加载中..." background="rgba(0,0,0,0.8)"></global-loader>
     <router-view></router-view>
+    <modal />
     <footer class="text-center py-4 text-secondary bg-light mt-6">
       <small>
         <ul class="list-inline mb-0">
@@ -22,11 +23,13 @@ import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 import GlobalHeader from './components/GlobalHeader.vue'
 import GlobalLoader from './components/GlobalLoader.vue'
+import Modal from './views/Modal.vue'
 export default defineComponent({
   name: 'App',
   components: {
     GlobalHeader,
-    GlobalLoader
+    GlobalLoader,
+    Modal
   },
   setup () {
     const store = useStore()

@@ -5,7 +5,7 @@
 <script lang="ts">
 import { defineComponent, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { GlobalDataProps } from '../store'
+import { GlobalDataProps } from '../store/store'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import ColumnList from '../components/ColumnList.vue'
 

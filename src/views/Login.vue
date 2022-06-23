@@ -7,7 +7,7 @@
     </div>
     <div class="mb-3">
       <label class="form-label">密码</label>
-      <validate-input type="password" :rules="pwdRules" v-model="pwdVal"/>
+      <validate-input type="password" :rules="pwdRules" v-model="pwdVal" :Error="pwdError"/>
     </div>
     <template v-slot:submit="slotProps" >
       <span class="btn btn-danger" @click="slotProps.handleClickSubmit">登陆</span>
@@ -39,6 +39,7 @@ export default defineComponent({
   setup () {
     const store = useStore()
     const router = useRouter()
+    const pwdError = ref('')
     const onSubmitForm = (result: boolean) => {
       if (result) {
         const user = {
@@ -47,8 +48,10 @@ export default defineComponent({
         }
         store.dispatch('login', user).then((result) => {
           if (result.status !== 200) {
-            console.log('密码错误')
+            pwdError.value = '密码错误'
           } else {
+            console.log(result.data)
+            window.localStorage.setItem('token', result.data.token)
             router.push('/')
           }
         })
@@ -73,6 +76,7 @@ export default defineComponent({
       pwdVal,
       validateEmail,
       emailRules,
+      pwdError,
       emailVal,
       onSubmitForm,
       pwdRules
@@ -81,10 +85,10 @@ export default defineComponent({
 })
 </script>
 <style>
-  .router-link-active {
+  /* .router-link-active {
     text-decoration: none;
   }
   a {
     text-decoration: none;
-  }
+  } */
 </style>

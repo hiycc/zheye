@@ -11,9 +11,10 @@
         <p class="text-muted">{{column?.description}}</p>
       </div>
     </div>
-    <post-list :list="list"></post-list>
-    <span @click="createPost" class="btn btn-danger">新建Post</span>
-    <span @click="deleteColumn" class="btn btn-danger">删除专栏</span>
+    <!-- <div>{{list.length}}</div> -->
+    <post-list :list="list?.data"></post-list>
+    <span @click="createPost" class="btn btn-primary p-2 m-3">新建Post</span>
+    <span @click="deleteColumn" class="btn btn-danger p-2 m-3">删除专栏</span>
   </div>
 </template>
 <script lang="ts">
@@ -31,7 +32,7 @@ export default defineComponent({
     const store = useStore()
     const columnId = route.params.columnId
     onMounted(() => {
-      store.dispatch('fetchPosts', columnId)
+      store.dispatch('fetchPost', columnId)
       store.dispatch('fetchColumn', columnId)
     })
     const createPost = () => {
@@ -39,6 +40,7 @@ export default defineComponent({
     }
     const deleteColumn = () => {
       store.dispatch('deleteColumn', route.params.columnId).then((results) => {
+        console.log('删除专栏:' + results)
         router.replace({ path: '/' })
       })
     }
@@ -53,5 +55,5 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="">
+<style scope="this api replaced by slot-scope in 2.5.0+">
 </style>

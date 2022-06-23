@@ -23,7 +23,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
 import ValidateForm from '../components/ValidateForm.vue'
-import { PostProps } from '../store'
+import { PostProps } from '../store/module/Posts'
 
 const titleRules: RulesProp = [
   { type: 'required', message: '文章标题不能为空' }
@@ -59,7 +59,7 @@ export default defineComponent({
             userId: store.state.user.id,
             title: titleVal.value,
             content: contentVal.value,
-            createAt: undefined,
+            createdAt: undefined,
             columnId
           }
           store.dispatch('createPost', newPost).then((result) => {
