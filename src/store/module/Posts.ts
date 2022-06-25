@@ -50,7 +50,8 @@ export const Posts = {
       try {
         const result = await axios.get('/posts')
         if (result.status === 200) {
-          context.rootState.posts = result.data
+          context.rootState.posts = result.data.data
+          context.rootState.user = { id: result.data.user.id, isLogin: true, name: result.data.user.username }
         }
       } catch (e: Error | AxiosError | unknown) {
         if (axios.isAxiosError(e)) {

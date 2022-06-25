@@ -7,6 +7,7 @@ import ColumnDetail from './views/ColumnDetail.vue'
 import CreatePost from './views/CreatePost.vue'
 import CreateColumn from './views/CreateColumn.vue'
 import Register from './views/Register.vue'
+import { useStore } from 'vuex'
 
 const routerHistory = createWebHistory()
 export const router = createRouter({
@@ -59,6 +60,13 @@ export const router = createRouter({
   ]
 })
 router.beforeEach((to, from, next) => {
+  // const store = useStore()
+  // const token = localStorage.getItem('token')
+  // if (token) {
+  //   store.dispatch('loginWithToken', token)
+  // } else {
+  //   console.log('456')
+  // }
   if (to.meta.requireLogin && !store.state.user.isLogin) {
     next({ name: 'login' })
   } else if (to.meta.redirectLogin && store.state.user.isLogin) {

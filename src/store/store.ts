@@ -17,7 +17,9 @@ export interface GlobalDataProps {
   columns: ColumnProps[];
   user: UserProps,
   posts: PostProps[]
-  column: ColumnProps | undefined
+  column: ColumnProps | undefined,
+  isMobile: boolean,
+  isLarge: boolean
 }
 
 const store = createStore<GlobalDataProps>({
@@ -34,7 +36,9 @@ const store = createStore<GlobalDataProps>({
     columns: [] as ColumnProps[],
     user: { isLogin: false },
     posts: [] as PostProps[],
-    column: {} as ColumnProps
+    column: {} as ColumnProps,
+    isMobile: false,
+    isLarge: false
   },
   mutations: {
     setLoading (state, status) {

@@ -19,10 +19,28 @@ export const User = {
           }
         })
         if (result.status === 200) {
+          console.log(result.data)
+          context.rootState.user = { id: result.data.id, isLogin: true, name: result.data.username }
+          window.localStorage.setItem('token', result.data.token)
+        }
+        return result
+      } catch (e: Error | AxiosError | unknown) {
+        if (axios.isAxiosError(e)) {
+          return e
+        }
+      }
+    },
+
+    async loginWithToken (context: ActionContext<GlobalDataProps, GlobalDataProps>, token: string) {
+      try {
+        const result = await axios.post('/signin/token', JSON.stringify(token), {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        if (result.status === 200) {
           context.rootState.user = { id: result.data.id, isLogin: true, name: result.data.username }
         }
-        console.log(result)
-        return result
       } catch (e: Error | AxiosError | unknown) {
         if (axios.isAxiosError(e)) {
           return e
@@ -34,6 +52,7 @@ export const User = {
     logout (context: ActionContext<GlobalDataProps, GlobalDataProps>) {
       context.rootState.user = { isLogin: false }
       context.rootState.columns = []
+      window.localStorage.removeItem('token')
     },
     async addUser (context: ActionContext<GlobalDataProps, GlobalDataProps>, user: string) {
       try {
@@ -42,11 +61,13 @@ export const User = {
             'Content-Type': 'application/json'
           }
         })
-        context.commit('addUser')
+        console.log(result.data)
+        context.rootState.user = { id: result.data.id, isLogin: true, name: result.data.username }
+        window.localStorage.setItem('token', result.data.token)
         return result
       } catch (e: Error | AxiosError | unknown) {
         if (axios.isAxiosError(e)) {
-          context.commit('addUser')
+          // context.commit('addUser')
           return e
         }
       }

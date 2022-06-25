@@ -11,6 +11,7 @@
       <label class="form-label">专栏描述：</label>
       <validate-input rows="10" tag="textarea" type="text" v-model="descriptionVal" placeholder="请输入专栏描述（可选）" />
     </div>
+    <!-- <upload-image /> -->
     <template v-slot:submit="slotProps">
       <span @click="slotProps.handleClickSubmit" class="btn btn-danger">新建</span>
     </template>
@@ -24,7 +25,7 @@ import { useStore } from 'vuex'
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
 import ValidateForm from '../components/ValidateForm.vue'
 import { ColumnProps } from '../store/module/Columns'
-
+// import UploadImage from '../components/UploadImage.vue'
 const titleRules: RulesProp = [
   { type: 'required', message: '专栏标题不能为空' }
 ]
@@ -34,6 +35,7 @@ export default defineComponent({
   components: {
     ValidateInput,
     ValidateForm
+    // UploadImage
   },
   setup () {
     const store = useStore()

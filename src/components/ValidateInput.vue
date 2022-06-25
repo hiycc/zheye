@@ -1,23 +1,27 @@
 <template>
-  <div class="validate-input-container pb-3">
+  <div class="form-floating validate-input-container pb-3">
     <input
       v-if="tag !== 'textarea'"
-      class="form-control"
+      id="floatingInput"
+      class="form-control px-3"
       :class="{'is-invalid': inputRef.error}"
       v-bind="$attrs"
       :value="inputRef.val"
       @input="updateValue"
       @blur="validateInput"
+      placeholder="123"
     >
     <textarea
       v-else
       class="form-control"
+      id="floatingInput"
       :class="{ 'is-invalid': inputRef.error }"
       :value="inputRef.val"
       v-bind="$attrs"
       @input="updateValue"
       @blur="validateInput"
     />
+    <label for="floatingInput">{{labelValue}}</label>
     <span v-if="inputRef.error" class="invalid-feedback">{{inputRef.message}}</span>
   </div>
 </template>
@@ -44,7 +48,8 @@ export default defineComponent({
       type: String as PropType<TagType>,
       default: 'input'
     },
-    validValue: String
+    validValue: String,
+    labelValue: String
   },
   setup (props, context) {
     const store = useStore()

@@ -1,5 +1,5 @@
 <template>
-  <form class="validate-form-container" action="">
+  <form class="validate-form-container px-3" action="">
     <slot name="default"></slot>
     <div>
       <slot name="submit" :handleClickSubmit="submitForm">

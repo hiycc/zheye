@@ -2,7 +2,7 @@
 
 ## to-do list
 - [ ] Upload image function
-- [ ] JWT authentication
+- [x] JWT authentication
 - [ ] Profile edit function
 
 ## Project setup

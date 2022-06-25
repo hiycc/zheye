@@ -1,15 +1,26 @@
 <template>
   <validate-form @form-submit="onSubmitForm">
+    <div class="mb-3"><span class="fs-2 bi bi-house me-2"></span><span class="fs-4">登录</span></div>
     <div class="mb-3">
-      <label class="form-label">邮箱地址</label>
-      <validate-input type="text" :rules="emailRules" v-model="emailVal"/>
-      <div id="emailHelp" v-if="emailRef.error" class="form-text">{{emailRef.message}}</div>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">密码</label>
-      <validate-input type="password" :rules="pwdRules" v-model="pwdVal" :Error="pwdError"/>
+      <!-- <label class="form-label">邮箱地址</label> -->
+      <validate-input
+        type="text"
+        :rules="emailRules"
+        v-model="emailVal"
+        :labelValue="'邮箱地址'"/>
+      <!-- <div id="emailHelp" v-if="emailRef.error" class="form-text">{{emailRef.message}}</div> -->
     </div>
     <template v-slot:submit="slotProps" >
+       <div class="mb-3">
+        <!-- <label class="form-label">密码</label> -->
+        <validate-input
+          v-on:keyup.enter="slotProps.handleClickSubmit"
+          type="password"
+          :rules="pwdRules"
+          v-model="pwdVal"
+          :Error="pwdError"
+          :labelValue="'密码'"/>
+      </div>
       <span class="btn btn-danger" @click="slotProps.handleClickSubmit">登陆</span>
     </template>
   </validate-form>
@@ -19,16 +30,9 @@
 import { defineComponent, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
+import ValidateInput from '../components/ValidateInput.vue'
+import { emailRules, pwdRules } from '../hooks/InputRules'
 import ValidateForm from '../components/ValidateForm.vue'
-
-const emailRules: RulesProp = [
-  { type: 'required', message: '电子邮件不能为空' },
-  { type: 'email', message: '请输入正确的邮件格式' }
-]
-const pwdRules: RulesProp = [
-  { type: 'required', message: '密码不能为空' }
-]
 
 export default defineComponent({
   name: 'Login',
@@ -72,14 +76,11 @@ export default defineComponent({
       }
     }
     return {
+      pwdRules, emailRules,
       emailRef,
-      pwdVal,
-      validateEmail,
-      emailRules,
+      pwdVal, emailVal,
       pwdError,
-      emailVal,
-      onSubmitForm,
-      pwdRules
+      onSubmitForm, validateEmail
     }
   }
 })
