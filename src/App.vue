@@ -1,9 +1,9 @@
 <template>
   <div class="container-fluid p-0">
     <global-header :user="currentUser"></global-header>
-    <global-loader v-if="isLoading" text="加载中..." background="rgba(0,0,0,0.8)"></global-loader>
-    <div class="p-3 m-auto w-50" :class="{ isMobile, isLarge }">
-      <router-view class="justify-content-center"></router-view>
+    <div id="back" class="p-3 m-auto w-50" :class="{ isMobile, isLarge }">
+      <global-loader v-if="isLoading" text="加载中..." background="rgba(0,0,0,0)"></global-loader>
+      <router-view v-show="!isLoading" class="justify-content-center"></router-view>
     </div>
     <modal />
     <footer class="text-center py-4 text-secondary bg-light mt-6">
@@ -11,8 +11,8 @@
         <ul class="list-inline mb-0">
           <li class="list-inline-item">© 2022学洱专栏</li>
           <!-- <li class="list-inline-item">课程</li> -->
-          <!-- <li class="list-inline-item">文档</li> -->
-          <li class="list-inline-item">设备宽度：{{width}}</li>
+          <li class="list-inline-item">联系</li>
+          <!-- <li class="list-inline-item">设备宽度：{{width}}</li> -->
           <li class="list-inline-item">更多</li>
         </ul>
       </small>

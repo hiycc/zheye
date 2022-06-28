@@ -21,17 +21,10 @@
 import { defineComponent, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
+import ValidateInput from '../components/ValidateInput.vue'
 import ValidateForm from '../components/ValidateForm.vue'
 import { PostProps } from '../store/module/Posts'
-
-const titleRules: RulesProp = [
-  { type: 'required', message: '文章标题不能为空' }
-]
-
-const contentRules: RulesProp = [
-  { type: 'required', message: '文章不能为空' }
-]
+import { titleRules, contentRules } from '../hooks/InputRules'
 
 export default defineComponent({
   name: 'CreatePost',

@@ -14,10 +14,10 @@
       <li v-if="!isMobile" class="list-inline-item"><router-link :to="{path:'/createColumn'}"><a href="#" class="btn btn-outline-light my-2">新建专栏</a></router-link></li>
       <li class="list-inline-item">
         <drop-down :title="`欢迎 ${user.name}`">
-          <dropdown-item v-if="isMobile"><router-link :to="{path:'/home'}"><a href="#" class="btn btn-outline-light my-2">我的专栏</a></router-link></dropdown-item>
+          <dropdown-item v-if="isMobile"><router-link :to="{path:'/home'}"><a href="#" class="btn my-2">我的专栏</a></router-link></dropdown-item>
           <dropdown-item v-if="isMobile"><router-link :to="{path:'/createColumn'}"><a href="#" class="btn btn-outline-light my-2">新建专栏</a></router-link></dropdown-item>
-          <dropdown-item disabled><a href="#" class="dropdown-item">编辑资料</a></dropdown-item>
-          <dropdown-item><a href="#" class="dropdown-item" @click="handleLogout">退出登陆</a></dropdown-item>
+          <dropdown-item ><router-link class="dropdown-item my-2 text-center" :to="{path:'/profile'}">编辑资料</router-link></dropdown-item>
+          <dropdown-item><a href="#" class="dropdown-item btn my-2 text-center" @click="handleLogout">退出登陆</a></dropdown-item>
         </drop-down>
       </li>
     </ul>

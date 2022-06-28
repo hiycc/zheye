@@ -40,7 +40,7 @@ export default defineComponent({
 .loading-containter {
   background: rgba(255, 255, 255, .5);
   z-index: 100;
-  position: fixed;
+  position: relative;
   width: 100%;
   height: 100%;
   top: 0;

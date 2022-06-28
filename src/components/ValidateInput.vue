@@ -9,7 +9,6 @@
       :value="inputRef.val"
       @input="updateValue"
       @blur="validateInput"
-      placeholder="123"
     >
     <textarea
       v-else
@@ -29,14 +28,11 @@
 import { defineComponent, PropType, reactive, onMounted, watch } from 'vue'
 import { useStore } from 'vuex'
 import { emitter } from './ValidateForm.vue'
+import { RulesProp } from '../hooks/InputRules'
 //  各规则对应的正则
 const emailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
 const userReg = /^[\u4e00-\u9fa5a-zA-Z0-9]{6,12}$/
-interface RuleProp {
-  type: 'required' | 'email' | 'valid' | 'user';
-  message: string;
-}
-export type RulesProp = RuleProp[]
+const pwdReg = /^[a-zA-Z0-9]{6,12}$/
 export type TagType = 'input' | 'textarea'
 export default defineComponent({
   name: 'ValidateInput',
@@ -98,6 +94,11 @@ export default defineComponent({
       if (error) {
         inputRef.error = true
         inputRef.message = error
+      }
+    })
+    watch(() => props.modelValue, (value, prevValue) => {
+      if (value !== prevValue) {
+        inputRef.val = value!
       }
     })
     return {

@@ -1,10 +1,9 @@
 //  InputRules.ts - 定义输入框验证规则和错误时返回的信息
-
 interface RuleProp {
   type: 'required' | 'email' | 'valid' | 'user';
   message: string;
 }
-type RulesProp = RuleProp[]
+export type RulesProp = RuleProp[]
 
 export const emailRules: RulesProp = [
   { type: 'required', message: '电子邮件不能为空' },
@@ -23,4 +22,12 @@ export const userRules: RulesProp = [
 export const validPwdRules: RulesProp = [
   { type: 'required', message: '密码不能为空' },
   { type: 'valid', message: '两次密码不一致' }
+]
+
+export const titleRules: RulesProp = [
+  { type: 'required', message: '专栏标题不能为空' }
+]
+
+export const contentRules: RulesProp = [
+  { type: 'required', message: '文章不能为空' }
 ]

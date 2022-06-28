@@ -71,6 +71,22 @@ export const User = {
           return e
         }
       }
+    },
+
+    async getUser (context: ActionContext<GlobalDataProps, GlobalDataProps>, id: number) {
+      try {
+        const result = await axios.get(`/users/${id}`, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        console.log(result.data)
+        return result.data
+      } catch (e: Error | AxiosError | unknown) {
+        if (axios.isAxiosError(e)) {
+          return e
+        }
+      }
     }
   }
 }

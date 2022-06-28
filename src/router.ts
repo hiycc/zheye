@@ -7,7 +7,7 @@ import ColumnDetail from './views/ColumnDetail.vue'
 import CreatePost from './views/CreatePost.vue'
 import CreateColumn from './views/CreateColumn.vue'
 import Register from './views/Register.vue'
-import { useStore } from 'vuex'
+import ProfileEditor from './views/ProfileEditor.vue'
 
 const routerHistory = createWebHistory()
 export const router = createRouter({
@@ -17,6 +17,14 @@ export const router = createRouter({
       path: '/home',
       name: 'home',
       component: Home,
+      meta: {
+        requireLogin: true
+      }
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfileEditor,
       meta: {
         requireLogin: true
       }

@@ -1,6 +1,6 @@
 <template>
   <div class="post-list">
-    <article v-for="post in list" :key="post.postId" class="card mb-3">
+    <article v-for="post in list" :key="post.postId" class="card shadow-sm mb-3">
       <h5 class="card-header">{{post.username}}</h5>
       <div class="card-body">
         <h4>{{post.title}}</h4>

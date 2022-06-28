@@ -22,13 +22,11 @@
 import { defineComponent, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
+import ValidateInput from '../components/ValidateInput.vue'
+import { titleRules } from '../hooks/InputRules'
 import ValidateForm from '../components/ValidateForm.vue'
 import { ColumnProps } from '../store/module/Columns'
 // import UploadImage from '../components/UploadImage.vue'
-const titleRules: RulesProp = [
-  { type: 'required', message: '专栏标题不能为空' }
-]
 
 export default defineComponent({
   name: 'CreateColumn',
