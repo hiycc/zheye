@@ -1,17 +1,16 @@
 <template>
   <div class="create-post-page">
-    <h4>新建专栏</h4>
+    <div class="mb-3"><span class="fs-2 bi bi-house me-2"></span><span class="fs-4">新建专栏</span></div>
     <validate-form @form-submit="onSubmitForm">
+    <div id="columnImg"></div>
+    <upload-image />
     <div class="mb-3">
-      <label class="form-label">专栏标题：</label>
-      <validate-input type="text" :rules="titleRules" v-model="titleVal" placeholder="请输入专栏标题" />
-      <div id="titleHelp" v-if="titleRef.error" class="form-text">{{titleRef.message}}</div>
+      <validate-input type="text" :rules="titleRules" v-model="titleVal" :labelValue="'专栏标题'" :Error="titleRef.message"/>
+      <!-- <div id="titleHelp" v-if="titleRef.error" class="form-text">{{titleRef.message}}</div> -->
     </div>
     <div class="mb-3">
-      <label class="form-label">专栏描述：</label>
-      <validate-input rows="10" tag="textarea" type="text" v-model="descriptionVal" placeholder="请输入专栏描述（可选）" />
+      <validate-input rows="10" tag="textarea" type="text" v-model="descriptionVal" :labelValue="'专栏描述（可选）'" />
     </div>
-    <!-- <upload-image /> -->
     <template v-slot:submit="slotProps">
       <span @click="slotProps.handleClickSubmit" class="btn btn-danger">新建</span>
     </template>
@@ -26,14 +25,14 @@ import ValidateInput from '../components/ValidateInput.vue'
 import { titleRules } from '../hooks/InputRules'
 import ValidateForm from '../components/ValidateForm.vue'
 import { ColumnProps } from '../store/module/Columns'
-// import UploadImage from '../components/UploadImage.vue'
+import UploadImage from '../components/UploadImage.vue'
 
 export default defineComponent({
   name: 'CreateColumn',
   components: {
     ValidateInput,
-    ValidateForm
-    // UploadImage
+    ValidateForm,
+    UploadImage
   },
   setup () {
     const store = useStore()

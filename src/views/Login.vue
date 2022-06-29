@@ -7,6 +7,7 @@
         type="text"
         :rules="emailRules"
         v-model="emailVal"
+        :Error="emailError"
         :labelValue="'邮箱地址'"/>
       <!-- <div id="emailHelp" v-if="emailRef.error" class="form-text">{{emailRef.message}}</div> -->
     </div>
@@ -44,6 +45,7 @@ export default defineComponent({
     const store = useStore()
     const router = useRouter()
     const pwdError = ref('')
+    const emailError = ref('')
     const onSubmitForm = (result: boolean) => {
       if (result) {
         const user = {
@@ -51,12 +53,18 @@ export default defineComponent({
           password: pwdVal.value
         }
         store.dispatch('login', user).then((result) => {
-          if (result.status !== 200) {
-            pwdError.value = '密码错误'
-          } else {
-            console.log(result.data)
+          console.log(result)
+          if (result.status === 200) {
             window.localStorage.setItem('token', result.data.token)
             router.push('/')
+          } else if (result.status === 400) {
+            if (result.data.message === '邮箱不存在') {
+              emailError.value = '邮箱不存在'
+            } else {
+              pwdError.value = '密码错误'
+            }
+          } else {
+            console.log(result.status)
           }
         })
       }
@@ -79,7 +87,7 @@ export default defineComponent({
       pwdRules, emailRules,
       emailRef,
       pwdVal, emailVal,
-      pwdError,
+      pwdError, emailError,
       onSubmitForm, validateEmail
     }
   }

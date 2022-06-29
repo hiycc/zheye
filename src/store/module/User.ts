@@ -26,7 +26,7 @@ export const User = {
         return result
       } catch (e: Error | AxiosError | unknown) {
         if (axios.isAxiosError(e)) {
-          return e
+          return e.response
         }
       }
     },
@@ -41,9 +41,10 @@ export const User = {
         if (result.status === 200) {
           context.rootState.user = { id: result.data.id, isLogin: true, name: result.data.username }
         }
+        return result
       } catch (e: Error | AxiosError | unknown) {
         if (axios.isAxiosError(e)) {
-          return e
+          return e.response
         }
       }
     },

@@ -5,18 +5,18 @@ import store from './store/store'
 import axios from 'axios'
 
 axios.defaults.baseURL = 'http://120.24.186.236:9999'
-axios.interceptors.request.use(config => {
-  store.commit('setLoading', true)
-  return config
-})
-axios.interceptors.response.use(config => {
-  // setInterval(() => {
-  //   store.commit('setLoading', false)
-  //   return config
-  // }, 10000)
-  store.commit('setLoading', false)
-  return config
-})
+// axios.interceptors.request.use(config => {
+//   store.commit('setLoading', true)
+//   return config
+// })
+// axios.interceptors.response.use(config => {
+//   // setInterval(() => {
+//   //   store.commit('setLoading', false)
+//   //   return config
+//   // }, 10000)
+//   store.commit('setLoading', false)
+//   return config
+// })
 
 axios.interceptors.request.use(config => {
   if (window.localStorage.getItem('token')) {

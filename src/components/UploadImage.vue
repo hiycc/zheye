@@ -1,11 +1,21 @@
 <template>
-  <div>
-    <div class="row">
+  <div class="mb-3">
+    <!-- <label for="inputImg" class="btn btn-primary p-0">
+    </label> -->
+    </div>
+    <div class="previewImg mb-3 img-thumbnail" id="previewImg" @click="handleClick">
+      <div v-if="!previewImage" class="img_alt d-inline-flex flex-column align-content-end flex-wrap">
+        <div>添加专栏图片</div>
+        <div class="bi bi-plus-circle-dotted"></div>
+      </div>
+      <img v-if="previewImage" class="preview img-fluid" :src="previewImage" alt=""/>
+    </div>
+    <!-- <div class="input-group">
+      <input class="form-control" type="file" accept="image/*" ref="fileRef" @change="selectImage($event)">
+      <button class="btn btn-outline-secondary" type="button">上传</button>
+    </div> -->
+    <!-- <div class="row">
       <div class="col-8">
-        <label class="btn btn-default p-0">
-          <input type="file" accept="image/*" ref="fileRef" @change="selectImage($event)">
-        </label>
-        <div>1:{{previewImage}}</div>
       </div>
       <div class="col-4">
         <button
@@ -14,7 +24,7 @@
           @click="uploadImage"
         >上传</button>
       </div>
-    </div>
+    </div> -->
     <div v-if="currentImage" class="progress">
       <div
         class="progress-bar progress-bar-info"
@@ -25,14 +35,8 @@
         :style="{ width: progress + '%'}"
       >{{ progress }}%</div>
     </div>
-  </div>
-  <div v-if="previewImage">
-    <div>
-      <img class="preview my-3" :src="previewImage" alt=""/>
-    </div>
-  </div>
   <div v-if="message" class="alert alert-secondary" role="alert">{{ message }}</div>
-  <div class="card mt-3">
+  <!-- <div class="card mt-3">
     <div class="card-header">图片列表</div>
     <ul class="list-group list-group-flush">
       <li
@@ -43,7 +47,7 @@
         <a :href="image.url">{{ image.name }}</a>
       </li>
     </ul>
-  </div>
+  </div> -->
 </template>
 <script lang="ts">
 import uploadFileService from '@/hooks/uploadFileService'
@@ -73,12 +77,28 @@ export default defineComponent({
     const message = ref('')
     let imageInfos = reactive<imageInfo[]>([])
     // const fileRef = ref()
+    const handleClick = async () => {
+      const result: any = await window.showOpenFilePicker({
+        types: [{
+          description: 'Images',
+          accept: {
+            'image/*': ['.png', '.gif', '.jpeg', '.jpg', '.webp']
+          }
+        }],
+        multiple: false
+      })
+      // progress.value = 0
+      // message.value = ''
+      console.log(result[0])
+      const fileData = await result[0].getFile()
+      const buffer = await fileData.arrayBuffer()
+      previewImage.value = URL.createObjectURL(new Blob([buffer]))
+    }
+
     const selectImage = (e:any) => {
       currentImage = e.target.files.item(0)
       previewImage.value = URL.createObjectURL(currentImage!)
       // console.log(previewImage)
-      progress.value = 0
-      message.value = ''
     }
 
     const uploadImage = () => {
@@ -112,9 +132,23 @@ export default defineComponent({
       imageInfos,
       progress,
       previewImage,
-      currentImage
+      currentImage,
+      handleClick
       // fileRef
     }
   }
 })
 </script>
+<style>
+  .previewImg{
+    width: 200px;
+    height: 200px;
+    border-radius: 5px;
+    background-color: #ccc;
+    border: #f3f3f3 1px;
+    text-align: center;
+    line-height: 100px;
+    color: #fff;
+    font-size: 20px;
+  }
+</style>
