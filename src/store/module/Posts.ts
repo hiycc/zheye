@@ -18,6 +18,7 @@ export interface PostProps {
 export const Posts = {
   actions: {
     async createPost (context: ActionContext<GlobalDataProps, GlobalDataProps>, newPost: string) {
+      console.log(newPost)
       try {
         const result = await axios.post('/posts/create', JSON.stringify(newPost), {
           headers: {

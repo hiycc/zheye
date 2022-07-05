@@ -75,10 +75,9 @@ router.beforeEach((to, from, next) => {
   // } else {
   //   console.log('456')
   // }
+
+  //  如果访问的页面需要登录，但是没有登录，则跳转到首页页面
   if (to.meta.requireLogin && !store.state.user.isLogin) {
-    next({ name: 'login' })
-  } else if (to.meta.redirectLogin && store.state.user.isLogin) {
-    console.log(to.meta)
     next({ name: 'hall' })
   } else {
     next()

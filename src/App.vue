@@ -6,14 +6,15 @@
       <router-view v-show="!isLoading" class="justify-content-center"></router-view>
     </div>
     <modal />
-    <footer class="text-center py-4 text-secondary bg-light mt-6">
+    <footer class="text-center py-4 text-secondary bg-light mt-6 sticky-bottom">
       <small>
         <ul class="list-inline mb-0">
           <li class="list-inline-item">© 2022学洱专栏</li>
           <!-- <li class="list-inline-item">课程</li> -->
-          <li class="list-inline-item">联系</li>
+          <li class="list-inline-item"><a href="http://blog.luxiwong.cn">作者博客</a></li>
+          <li class="list-inline-item"><a href="http://luxiwong.cn:5900">资源</a></li>
           <!-- <li class="list-inline-item">设备宽度：{{width}}</li> -->
-          <li class="list-inline-item">更多</li>
+          <!-- <li class="list-inline-item">更多</li> -->
         </ul>
       </small>
     </footer>
@@ -22,7 +23,7 @@
 <script lang="ts">
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import { defineComponent, computed, ref } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 import GlobalHeader from './components/GlobalHeader.vue'
 import GlobalLoader from './components/GlobalLoader.vue'
@@ -37,11 +38,14 @@ export default defineComponent({
   setup () {
     const width = screen.width
     const store = useStore()
+
+    //  判断是否是移动设备
     if (width <= 600) {
       store.state.isMobile = true
     } else if (width > 1440) {
       store.state.isLarge = true
     }
+
     const isMobile = computed(() => store.state.isMobile)
     const isLarge = computed(() => store.state.isLarge)
     const currentUser = computed(() => store.state.user)
@@ -54,11 +58,14 @@ export default defineComponent({
   }
 })
 </script>
-<style>
+<style scoped>
   .isMobile {
     width: 100% !important;
   }
   .isLarge {
     width: 50% !important;
+  }
+  .list-inline-item a {
+    color: #6c757d;
   }
 </style>

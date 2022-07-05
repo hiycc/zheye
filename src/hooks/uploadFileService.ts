@@ -5,7 +5,7 @@ class UploadFilesService {
     //  FormData 是一种可将数据编译成键值对的数据结构
     const formData = new FormData()
     formData.append('file', file)
-    return axios.post('/upload', formData, {
+    return axios.post('/files/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       },

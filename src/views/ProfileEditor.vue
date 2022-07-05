@@ -23,7 +23,7 @@
         :Error="pwdError"
         :labelValue="'新密码'"/>
       </div>
-      <span class="btn btn-danger" @click="slotProps.handleClickSubmit">登陆</span>
+      <span class="btn btn-danger" @click="slotProps.handleClickSubmit">修改</span>
     </template>
   </validate-form>
 </template>

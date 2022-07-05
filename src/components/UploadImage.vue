@@ -36,29 +36,18 @@
       >{{ progress }}%</div>
     </div>
   <div v-if="message" class="alert alert-secondary" role="alert">{{ message }}</div>
-  <!-- <div class="card mt-3">
-    <div class="card-header">图片列表</div>
-    <ul class="list-group list-group-flush">
-      <li
-        class="list-group-item"
-        v-for="(image, index) in imageInfos"
-        :key="index"
-      >
-        <a :href="image.url">{{ image.name }}</a>
-      </li>
-    </ul>
-  </div> -->
 </template>
 <script lang="ts">
 import uploadFileService from '@/hooks/uploadFileService'
+import { emit } from 'process'
 import { defineComponent, reactive, ref, onMounted } from 'vue'
-
 interface imageInfo {
   url: string,
   name: string
 }
 export default defineComponent({
   name: 'UploadImage',
+  emits: ['getURL'],
   data () {
     return {
       selectedFiles: undefined,
@@ -69,9 +58,9 @@ export default defineComponent({
   },
   methods: {
   },
-  setup (props) {
+  setup (props, context) {
     // const selectedFiles =
-    let currentImage: File | undefined
+    let currentImage: Buffer | undefined
     const previewImage = ref('')
     const progress = ref(0)
     const message = ref('')
@@ -91,14 +80,25 @@ export default defineComponent({
       // message.value = ''
       console.log(result[0])
       const fileData = await result[0].getFile()
-      const buffer = await fileData.arrayBuffer()
-      previewImage.value = URL.createObjectURL(new Blob([buffer]))
-    }
+      const arrayBuffer = await fileData.arrayBuffer()
+      previewImage.value = URL.createObjectURL(new Blob([arrayBuffer]))
 
-    const selectImage = (e:any) => {
-      currentImage = e.target.files.item(0)
-      previewImage.value = URL.createObjectURL(currentImage!)
-      // console.log(previewImage)
+      // currentImage = Buffer.from(arrayBuffer)
+      progress.value = 0
+      uploadFileService.upload(fileData, (event) => {
+        //  计算图片上传进度
+        progress.value = Math.round((100 * event.loaded) / event.total)
+      })
+        .then((response) => {
+          console.log(response.data)
+          message.value = response.data.message
+          context.emit('getURL', response.data.data.url)
+        })
+        .catch((err) => {
+          progress.value = 0
+          message.value = 'Counld not upload the image! ' + err
+          currentImage = undefined
+        })
     }
 
     const uploadImage = () => {
@@ -121,13 +121,7 @@ export default defineComponent({
           currentImage = undefined
         })
     }
-    onMounted(() => {
-      uploadFileService.getFiles().then(response => {
-        imageInfos = response.data
-      })
-    })
     return {
-      selectImage,
       uploadImage,
       imageInfos,
       progress,

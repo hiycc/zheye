@@ -8,7 +8,7 @@
           <div v-if="post.image" class="col-3">
             <img :src="post.image" alt="post.title" class="rounded-lg img-fluid">
           </div>
-          <p :class="{'col-9':post.image}">{{post.content}}</p>
+          <p :class="{'col-9':post.image}" v-html="post.content"></p>
         </div>
         <div class="d-flex flex-row-reverse">
           <span @click="deletePost(post.postId?.toString()!)" class="btn btn-danger">删除Post</span>

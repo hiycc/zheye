@@ -19,6 +19,7 @@
       v-bind="$attrs"
       @input="updateValue"
       @blur="validateInput"
+      style="height: 10rem"
     />
     <label for="floatingInput">{{labelValue}}</label>
     <span v-if="inputRef.error" class="invalid-feedback">{{inputRef.message}}</span>
@@ -97,9 +98,7 @@ export default defineComponent({
       }
     })
     watch(() => props.modelValue, (value, prevValue) => {
-      if (value !== prevValue) {
-        inputRef.val = value!
-      }
+      inputRef.val = value!
     })
     return {
       inputRef,
